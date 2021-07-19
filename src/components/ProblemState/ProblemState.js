@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Input } from "@material-ui/core";
 
 function ProblemState(props) {
   return (
@@ -16,7 +16,7 @@ function ProblemState(props) {
         <div className="start">
           <span className="problem">{props.currentProblem[0]}</span>
           &nbsp; = &nbsp;
-          <input
+          <Input
             type="number"
             pattern="\d*"
             style={{ fontSize: "36px", fontFamily: "inherit", width: "180px" }}

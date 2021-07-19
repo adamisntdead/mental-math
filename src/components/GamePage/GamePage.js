@@ -6,9 +6,8 @@ import ProblemState from "../ProblemState";
 import EmptyState from "../EmptyState";
 import { Timer as GameIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
 
-const GAME_LENGTH = 10
+const GAME_LENGTH = 120
 
 // Get a random number between 0 and n - 1
 function randInt(n) {
@@ -139,6 +138,7 @@ class GamePage extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   correctAnswer() {
@@ -209,7 +209,7 @@ class GamePage extends Component {
       title={`Score: ${this.state.score}`} 
       size="large"
       button={
-        <Fab variant="extended" color="primary" component={Link} to="/game">
+        <Fab variant="extended" color="primary" onClick={this.resetGame}>
           <Box clone mr={1}>
             <GameIcon />
           </Box>
@@ -229,7 +229,7 @@ class GamePage extends Component {
           textAlign="center"
         >
           <Badge max={999} badgeContent={this.state.score} color="primary">
-            <Paper elevation={1} style={{ backgroundColor: "white" }}>
+            <Paper elevation={1}>
               <GameTimer value={this.state.timeLeft} />
               <Box style={{ padding: "30px" }}>
                 <ProblemState
