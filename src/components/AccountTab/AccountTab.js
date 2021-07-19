@@ -88,7 +88,6 @@ const styles = (theme) => ({
 
 const initialState = {
   profileCompletion: 0,
-  securityRating: 0,
   showingField: "",
   avatar: null,
   avatarUrl: "",
@@ -749,7 +748,6 @@ class AccountTab extends Component {
 
     const {
       profileCompletion,
-      securityRating,
       showingField,
       performingAction,
       loadingAvatar,
@@ -972,30 +970,6 @@ class AccountTab extends Component {
                   )}
                 </Box>
               </Grid>
-
-              <Grid item xs>
-                <Box textAlign="center">
-                  <Typography variant="body1">Security Rating</Typography>
-
-                  {securityRating === 0 && (
-                    <Typography color="error" variant="h5">
-                      {securityRating}%
-                    </Typography>
-                  )}
-
-                  {securityRating === 100 && (
-                    <Typography color="primary" variant="h5">
-                      {securityRating}%
-                    </Typography>
-                  )}
-
-                  {securityRating !== 0 && securityRating !== 100 && (
-                    <Typography color="secondary" variant="h5">
-                      {securityRating}%
-                    </Typography>
-                  )}
-                </Box>
-              </Grid>
             </Grid>
           </Hidden>
 
@@ -1183,30 +1157,6 @@ class AccountTab extends Component {
                   {profileCompletion !== 0 && profileCompletion !== 100 && (
                     <Typography color="secondary" variant="h5">
                       {profileCompletion}%
-                    </Typography>
-                  )}
-                </Box>
-              </Grid>
-
-              <Grid item xs>
-                <Box textAlign="center">
-                  <Typography variant="body1">Security Rating</Typography>
-
-                  {securityRating === 0 && (
-                    <Typography color="error" variant="h5">
-                      {securityRating}%
-                    </Typography>
-                  )}
-
-                  {securityRating === 100 && (
-                    <Typography color="primary" variant="h5">
-                      {securityRating}%
-                    </Typography>
-                  )}
-
-                  {securityRating !== 0 && securityRating !== 100 && (
-                    <Typography color="secondary" variant="h5">
-                      {securityRating}%
                     </Typography>
                   )}
                 </Box>
@@ -1634,7 +1584,7 @@ class AccountTab extends Component {
         ...user,
         ...userData,
       }),
-      securityRating: authentication.getSecurityRating(user, userData),
+      // securityRating: authentication.getSecurityRating(user, userData),
     });
   }
 

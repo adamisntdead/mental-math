@@ -2,19 +2,17 @@ import React from "react";
 
 import ReactDOM from "react-dom";
 
-import AboutDialog from "./AboutDialog";
+import { MemoryRouter } from "react-router-dom";
+
+import GamePage from "./GamePage";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
 
   ReactDOM.render(
-    <AboutDialog
-      dialogProps={{
-        open: true,
-
-        onClose: () => {},
-      }}
-    />,
+    <MemoryRouter>
+      <GamePage />
+    </MemoryRouter>,
     div
   );
 

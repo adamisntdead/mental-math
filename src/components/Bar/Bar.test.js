@@ -13,7 +13,6 @@ it("renders without crashing", () => {
       <Bar
         title=""
         performingAction={false}
-        onAboutClick={() => {}}
         onSettingsClick={() => {}}
         onSignOutClick={() => {}}
       />

@@ -12,15 +12,6 @@ it("renders without crashing", () => {
       performingAction={false}
       theme={{}}
       dialogs={{
-        aboutDialog: {
-          dialogProps: {
-            open: false,
-          },
-
-          props: {
-            theme: {},
-          },
-        },
         signUpDialog: {},
         signInDialog: {},
         settingsDialog: {},

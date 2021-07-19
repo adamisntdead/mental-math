@@ -24,10 +24,6 @@ const initialState = {
   userData: null,
   roles: [],
 
-  aboutDialog: {
-    open: false,
-  },
-
   signUpDialog: {
     open: false,
   },
@@ -122,10 +118,6 @@ class App extends Component {
   closeAllDialogs = (callback) => {
     this.setState(
       {
-        aboutDialog: {
-          open: false,
-        },
-
         signUpDialog: {
           open: false,
         },
@@ -243,17 +235,10 @@ class App extends Component {
   };
 
   render() {
-    const {
-      ready,
-      performingAction,
-      theme,
-      user,
-      userData,
-      roles,
-    } = this.state;
+    const { ready, performingAction, theme, user, userData, roles } =
+      this.state;
 
     const {
-      aboutDialog,
       signUpDialog,
       signInDialog,
       settingsDialog,
@@ -284,7 +269,6 @@ class App extends Component {
                     roles={roles}
                     onSignUpClick={() => this.openDialog("signUpDialog")}
                     onSignInClick={() => this.openDialog("signInDialog")}
-                    onAboutClick={() => this.openDialog("aboutDialog")}
                     onSettingsClick={() => this.openDialog("settingsDialog")}
                     onSignOutClick={() => this.openDialog("signOutDialog")}
                   />
@@ -299,14 +283,6 @@ class App extends Component {
                 userData={userData}
                 openSnackbar={this.openSnackbar}
                 dialogs={{
-                  aboutDialog: {
-                    dialogProps: {
-                      open: aboutDialog.open,
-
-                      onClose: () => this.closeDialog("aboutDialog"),
-                    },
-                  },
-
                   signUpDialog: {
                     dialogProps: {
                       open: signUpDialog.open,
@@ -370,7 +346,7 @@ class App extends Component {
                     props: {
                       title: "Sign out?",
                       contentText:
-                        "While signed out you are unable to manage your profile and conduct other activities that require you to be signed in.",
+                        "While signed out you will not be able to track your scores over time.",
                       dismissiveAction: (
                         <Button
                           color="primary"

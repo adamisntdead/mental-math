@@ -54,21 +54,12 @@ class Bar extends Component {
     const { performingAction, user, userData, roles } = this.props;
 
     // Events
-    const {
-      onAboutClick,
-      onSettingsClick,
-      onSignOutClick,
-      onSignUpClick,
-      onSignInClick,
-    } = this.props;
+    const { onSettingsClick, onSignOutClick, onSignUpClick, onSignInClick } =
+      this.props;
 
     const { menu } = this.state;
 
     const menuItems = [
-      {
-        name: "About",
-        onClick: onAboutClick,
-      },
       {
         name: "Profile",
         to: user ? `/user/${user.uid}` : null,
@@ -100,6 +91,9 @@ class Bar extends Component {
             </Typography>
           </Box>
 
+          <Button to="/leaderboard" component={RouterLink} color="inherit">
+            Leaderboard
+          </Button>
           {user && (
             <>
               {roles.includes("admin") && (
@@ -207,7 +201,6 @@ Bar.propTypes = {
   userData: PropTypes.object,
 
   // Events
-  onAboutClick: PropTypes.func.isRequired,
   onSettingsClick: PropTypes.func.isRequired,
   onSignOutClick: PropTypes.func.isRequired,
 };

@@ -8,13 +8,10 @@ import { Home as HomeIcon } from "@material-ui/icons";
 
 import EmptyState from "../EmptyState";
 
-import { ReactComponent as NotFoundIllustration } from "../../illustrations/not-found.svg";
-
 class NotFoundPage extends Component {
   render() {
     return (
       <EmptyState
-        image={<NotFoundIllustration />}
         title="Page doesn’t exist."
         description="The page you’re trying to access doesn’t exist."
         button={

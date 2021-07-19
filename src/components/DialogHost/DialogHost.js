@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 
 import { Hidden } from "@material-ui/core";
 
-import AboutDialog from "../AboutDialog";
-
 import SignUpDialog from "../SignUpDialog";
 import SignInDialog from "../SignInDialog";
 import SettingsDialog from "../SettingsDialog";
@@ -20,7 +18,6 @@ class DialogHost extends Component {
     // Functions
     const { openSnackbar } = this.props;
 
-    const aboutDialog = dialogs.aboutDialog;
     const signUpDialog = dialogs.signUpDialog;
     const signInDialog = dialogs.signInDialog;
     const settingsDialog = dialogs.settingsDialog;
@@ -29,16 +26,6 @@ class DialogHost extends Component {
 
     return (
       <>
-        <AboutDialog
-          dialogProps={aboutDialog.dialogProps}
-          performingAction={performingAction}
-          theme={theme}
-          user={user}
-          userData={userData}
-          openSnackbar={openSnackbar}
-          {...aboutDialog.props}
-        />
-
         {user && (
           <>
             <AlertDialog

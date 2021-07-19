@@ -8,6 +8,8 @@ import HomePage from "../HomePage";
 import AdminPage from "../AdminPage";
 import UserPage from "../UserPage";
 import NotFoundPage from "../NotFoundPage";
+import GamePage from "../GamePage";
+import LeaderboardPage from "../LeaderboardPage";
 
 class Router extends Component {
   render() {
@@ -26,6 +28,13 @@ class Router extends Component {
             <HomePage user={user} openSnackbar={openSnackbar} />
           </Route>
 
+          <Route path="/game">
+            <GamePage />
+          </Route>
+
+          <Route path="/leaderboard">
+            <LeaderboardPage />
+          </Route>
           <Route path="/admin">
             {user && roles.includes("admin") ? (
               <AdminPage />

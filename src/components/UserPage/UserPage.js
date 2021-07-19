@@ -15,9 +15,6 @@ import EmptyState from "../EmptyState";
 import Loader from "../Loader";
 import UserCard from "../UserCard";
 
-import { ReactComponent as ErrorIllustration } from "../../illustrations/error.svg";
-import { ReactComponent as NoDataIllustration } from "../../illustrations/no-data.svg";
-
 const useStyles = makeStyles({
   grid: {
     margin: 0,
@@ -51,7 +48,6 @@ function UserPage() {
   if (error) {
     return (
       <EmptyState
-        image={<ErrorIllustration />}
         title="Couldn’t retrieve user."
         description="Something went wrong when trying to retrieve the requested user."
         button={
@@ -77,7 +73,6 @@ function UserPage() {
   if (!user) {
     return (
       <EmptyState
-        image={<NoDataIllustration />}
         title="User doesn’t exist."
         description="The requested user doesn’t exist."
         button={
@@ -106,7 +101,6 @@ function UserPage() {
 
   return (
     <EmptyState
-      image={<NoDataIllustration />}
       title="No profile."
       description="The user hasn‘t setup their profile."
     />

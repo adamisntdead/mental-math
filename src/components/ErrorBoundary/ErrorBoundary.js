@@ -6,8 +6,6 @@ import * as Sentry from "@sentry/browser";
 
 import EmptyState from "../EmptyState";
 
-import { ReactComponent as ErrorIllustration } from "../../illustrations/error.svg";
-
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +41,6 @@ class ErrorBoundary extends Component {
     if (hasError) {
       return (
         <EmptyState
-          image={<ErrorIllustration />}
           title="Something went wrong"
           description="The app failed to load"
         />

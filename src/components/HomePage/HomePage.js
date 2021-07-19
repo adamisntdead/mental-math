@@ -4,14 +4,17 @@ import PropTypes from "prop-types";
 
 import { withRouter } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+
+import { Fab, Box } from "@material-ui/core";
+
+import { Timer as GameIcon } from "@material-ui/icons";
+
 import { auth } from "../../firebase";
 
 import authentication from "../../services/authentication";
 
 import EmptyState from "../EmptyState";
-
-import { ReactComponent as CabinIllustration } from "../../illustrations/cabin.svg";
-import { ReactComponent as InsertBlockIllustration } from "../../illustrations/insert-block.svg";
 
 class HomePage extends Component {
   signInWithEmailLink = () => {
@@ -70,23 +73,19 @@ class HomePage extends Component {
   };
 
   render() {
-    const { user } = this.props;
-
-    if (user) {
-      return (
-        <EmptyState
-          image={<CabinIllustration />}
-          title="Home"
-          description="This is the home page. You can edit it from HomePage.js."
-        />
-      );
-    }
-
     return (
       <EmptyState
-        image={<InsertBlockIllustration />}
-        title="RMUIF"
-        description="Supercharged version of Create React App with all the bells and whistles."
+        title="Alphamac"
+        description="A fast-paced mental arithmetic game, where you are given two minutes to solve as many problems as you can. Alphamac allows you to improve your skills, compete with friends, and track your progress over time."
+        size="medium"
+        button={
+          <Fab variant="extended" color="primary" component={Link} to="/game">
+            <Box clone mr={1}>
+              <GameIcon />
+            </Box>
+            Start Game
+          </Fab>
+        }
       />
     );
   }
