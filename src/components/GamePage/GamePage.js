@@ -6,6 +6,7 @@ import ProblemState from "../ProblemState";
 import EmptyState from "../EmptyState";
 import { Timer as GameIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
+import { firestore } from "../../firebase";
 
 const GAME_LENGTH = 120
 
@@ -94,7 +95,7 @@ function GameTimer(props) {
   return (
     // <Box display="flex" alignItems="center">
     <Box width="100%" mr={1}>
-      <LinearProgress variant="determinate" value={props.value / (GAME_LENGTH/100)} />
+      <LinearProgress variant="determinate" value={props.value / (GAME_LENGTH / 100)} />
     </Box>
   );
 }
@@ -177,11 +178,24 @@ class GamePage extends Component {
     this.startLoading()
   }
 
+  gameOver() {
+    // Persist the score
+    if (this.props.user) {
+      const userDocumentReference = firestore.collection("users").doc(this.props.user.uid);
+      userDocumentReference.collection('scores').add({
+        score: this.state.score,
+        date: Date.now()
+      })
+    }
+
+    this.setState({ gameOver: true });
+  }
+
   countDown() {
     const timer = setInterval(() => {
       if (this.state.timeLeft === 0) {
         clearInterval(timer)
-        this.setState({ gameOver: true });
+        this.gameOver()
       } else {
         this.setState({ timeLeft: this.state.timeLeft - 1 });
       }
@@ -206,17 +220,17 @@ class GamePage extends Component {
 
     if (this.state.gameOver) {
       return (<EmptyState
-      title={`Score: ${this.state.score}`} 
-      size="large"
-      button={
-        <Fab variant="extended" color="primary" onClick={this.resetGame}>
-          <Box clone mr={1}>
-            <GameIcon />
-          </Box>
-          Restart Game
-        </Fab>
-      }
-    />)
+        title={`Score: ${this.state.score}`}
+        size="large"
+        button={
+          <Fab variant="extended" color="primary" onClick={this.resetGame}>
+            <Box clone mr={1}>
+              <GameIcon />
+            </Box>
+            Restart Game
+          </Fab>
+        }
+      />)
     }
 
     return (
