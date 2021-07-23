@@ -69,7 +69,8 @@ function UserCard(props) {
           const data = snapshot.docs.map(d => {
             return {
               score: d.data().score,
-              date: moment(d.data().date).format("dddd, MMMM Do YYYY, h:mm:ss a"),
+              date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
+              initials: user.firstName == "" ? "" : `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`.split(" ").map((n) => n[0]).join("").toUpperCase()
             }
           })
           setScores(data)
@@ -90,7 +91,7 @@ function UserCard(props) {
   return (
     <Card>
       <CardHeader
-        title={`${user.firstName} ${user.lastname || ''}`}
+        title={`${user.firstName} ${user.lastname || ''} `}
         subheader={user.username}
       />
       <Tabs
