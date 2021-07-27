@@ -87,8 +87,8 @@ function LeaderboardCard(props) {
   return (
     <Card>
       <CardHeader
-        title="Alphamac Leaderboard"
-      // subheader={user.username}
+        title="Leaderboard"
+        subheader="120 Second Trial"
       />
       <Tabs
         value={value}
