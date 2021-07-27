@@ -29,7 +29,7 @@ class Router extends Component {
           </Route>
 
           <Route path="/game">
-            <GamePage />
+            <GamePage user={user} />
           </Route>
 
           <Route path="/leaderboard">
