@@ -11,4 +11,4 @@ Sentry.init({
   release: `${process.env.REACT_APP_NAME}@${process.env.REACT_APP_VERSION}`,
 });
 ReactDOM.render(<App />, document.getElementById("root"));
-serviceWorker.register();
+// serviceWorker.register();
