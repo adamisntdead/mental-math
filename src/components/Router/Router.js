@@ -17,7 +17,7 @@ class Router extends Component {
     const { user, roles, bar } = this.props;
 
     // Functions
-    const { openSnackbar } = this.props;
+    const { openSnackbar, openDialog } = this.props;
 
     return (
       <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
@@ -25,11 +25,12 @@ class Router extends Component {
 
         <Switch>
           <Route path="/" exact>
-            <HomePage user={user} openSnackbar={openSnackbar} />
+            <HomePage user={user} openSnackbar={openSnackbar} openDialog={openDialog} />
           </Route>
 
           <Route path="/game">
-            <GamePage user={user} />
+            {user && user.username || !user ? (<GamePage user={user} />) : (<Redirect to="/" />)}
+
           </Route>
 
           <Route path="/leaderboard">

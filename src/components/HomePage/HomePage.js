@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 
 import { withRouter } from "react-router-dom";
 
-import { Link } from "react-router-dom";
-
 import { Fab, Box } from "@material-ui/core";
 
 import { Timer as GameIcon } from "@material-ui/icons";
@@ -79,7 +77,15 @@ class HomePage extends Component {
         description="A fast-paced mental arithmetic game, where you are given two minutes to solve as many problems as you can. Alphamac allows you to improve your skills, compete with friends, and track your progress over time."
         size="medium"
         button={
-          <Fab variant="extended" color="primary" component={Link} to="/game">
+          <Fab variant="extended" color="primary" onClick={() => {
+            if (this.props.user && !this.props.user.username) {
+              this.props.openDialog("noUsernameDialog")
+            } else {
+              this.props.history.push('/game')
+            }
+          }}
+            // component={Link} 
+            to="/game">
             <Box clone mr={1}>
               <GameIcon />
             </Box>

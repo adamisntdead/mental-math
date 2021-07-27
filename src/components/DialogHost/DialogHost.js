@@ -23,6 +23,7 @@ class DialogHost extends Component {
     const settingsDialog = dialogs.settingsDialog;
     const deleteAccountDialog = dialogs.deleteAccountDialog;
     const signOutDialog = dialogs.signOutDialog;
+    const noUsernameDialog = dialogs.noUsernameDialog;
 
     return (
       <>
@@ -36,6 +37,16 @@ class DialogHost extends Component {
               userData={userData}
               openSnackbar={openSnackbar}
               {...signOutDialog.props}
+            />
+
+            <AlertDialog
+              dialogProps={noUsernameDialog.dialogProps}
+              performingAction={performingAction}
+              theme={theme}
+              user={user}
+              userData={userData}
+              openSnackbar={openSnackbar}
+              {...noUsernameDialog.props}
             />
           </>
         )}

@@ -44,6 +44,10 @@ const initialState = {
     open: false,
   },
 
+  noUsernameDialog: {
+    open: false
+  },
+
   snackbar: {
     autoHideDuration: 0,
     message: "",
@@ -137,6 +141,10 @@ class App extends Component {
         signOutDialog: {
           open: false,
         },
+
+        noUsernameDialog: {
+          open: false
+        }
       },
       callback
     );
@@ -173,6 +181,22 @@ class App extends Component {
       }
     );
   };
+
+  openSettings = () => {
+    this.setState({
+      performingAction: true
+    }, () => {
+      this.setState({
+        settingsDialog: {
+          open: true,
+        },
+        noUsernameDialog: {
+          open: false
+        },
+        performingAction: false
+      })
+    })
+  }
 
   signOut = () => {
     this.setState(
@@ -244,6 +268,7 @@ class App extends Component {
       settingsDialog,
       deleteAccountDialog,
       signOutDialog,
+      noUsernameDialog,
     } = this.state;
 
     const { snackbar } = this.state;
@@ -274,6 +299,7 @@ class App extends Component {
                   />
                 }
                 openSnackbar={this.openSnackbar}
+                openDialog={this.openDialog}
               />
 
               <DialogHost
@@ -367,6 +393,25 @@ class App extends Component {
                       ),
                     },
                   },
+
+                  noUsernameDialog: {
+                    dialogProps: {
+                      open: noUsernameDialog.open,
+
+                      onClose: () => this.closeDialog('noUsernameDialog'),
+                    },
+
+                    props: {
+                      title: "Missing username!",
+                      contentText: "You haven't set your username yet! This means you won't be able to play the game or track your scores.",
+                      confirmingAction: (
+                        <Button color="primary"
+                          disabled={performingAction}
+                          variant="contained"
+                          onClick={this.openSettings}>Open Settings</Button>
+                      )
+                    }
+                  }
                 }}
               />
 
