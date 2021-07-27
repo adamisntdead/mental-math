@@ -66,7 +66,7 @@ function LeaderboardCard(props) {
               score: d.data().score,
               date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
               fullName: d.data().username,
-              initials: d.data().firstName == "" ? "" : `${d.data().firstName}${d.data().lastName ? ' ' + d.data().lastName : ''}`.split(" ").map((n) => n[0]).join("").toUpperCase()
+              initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
             }
           })
           setScores(data)

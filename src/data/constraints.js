@@ -1,20 +1,4 @@
 const constraints = {
-  firstName: {
-    presence: {
-      allowEmpty: false,
-    },
-
-    type: "string",
-  },
-
-  lastName: {
-    presence: {
-      allowEmpty: false,
-    },
-
-    type: "string",
-  },
-
   username: {
     length: {
       minimum: 2,

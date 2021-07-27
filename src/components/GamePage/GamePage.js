@@ -185,8 +185,6 @@ class GamePage extends Component {
         score: this.state.score,
         date: Date.now(),
         user: this.props.user.uid,
-        firstName: this.props.user.firstName,
-        lastName: this.props.user.lastName,
         username: this.props.user.username
       }
 

@@ -12,16 +12,14 @@ authentication.signUp = (fields) => {
       return;
     }
 
-    const firstName = fields.firstName;
-    const lastName = fields.lastName;
     const username = fields.username;
     const emailAddress = fields.emailAddress;
     const password = fields.password;
 
-    if (!firstName || !lastName || !username || !emailAddress || !password) {
+    if (!username || !emailAddress || !password) {
       reject(
         new Error(
-          "No first name, last name, username, e-mail address, or password"
+          "No username, e-mail address, or password"
         )
       );
 
@@ -57,8 +55,6 @@ authentication.signUp = (fields) => {
 
         userDocumentReference
           .set({
-            firstName: firstName,
-            lastName: lastName,
             username: username,
           })
           .then((value) => {
@@ -612,88 +608,6 @@ authentication.removeAvatar = () => {
   });
 };
 
-authentication.changeFirstName = (firstName) => {
-  return new Promise((resolve, reject) => {
-    if (!firstName) {
-      reject(new Error("No first name"));
-
-      return;
-    }
-
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-      reject(new Error("No current user"));
-
-      return;
-    }
-
-    const uid = currentUser.uid;
-
-    if (!uid) {
-      reject(new Error("No UID"));
-
-      return;
-    }
-
-    const userDocumentReference = firestore.collection("users").doc(uid);
-
-    userDocumentReference
-      .update({
-        firstName: firstName,
-      })
-      .then((value) => {
-        analytics.logEvent("change_first_name");
-
-        resolve(value);
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
-  });
-};
-
-authentication.changeLastName = (lastName) => {
-  return new Promise((resolve, reject) => {
-    if (!lastName) {
-      reject(new Error("No last name"));
-
-      return;
-    }
-
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-      reject(new Error("No current user"));
-
-      return;
-    }
-
-    const uid = currentUser.uid;
-
-    if (!uid) {
-      reject(new Error("No UID"));
-
-      return;
-    }
-
-    const userDocumentReference = firestore.collection("users").doc(uid);
-
-    userDocumentReference
-      .update({
-        lastName: lastName,
-      })
-      .then((value) => {
-        analytics.logEvent("change_last_name");
-
-        resolve(value);
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
-  });
-};
-
 authentication.changeUsername = (username) => {
   return new Promise((resolve, reject) => {
     if (!username) {
@@ -918,78 +832,25 @@ authentication.getName = (fields) => {
     return null;
   }
 
-  const firstName = fields.firstName;
   const username = fields.username;
-  const displayName = fields.displayName;
-  const lastName = fields.lastName;
-
-  if (firstName) {
-    return firstName;
-  }
 
   if (username) {
     return username;
   }
 
-  if (displayName) {
-    return displayName;
-  }
-
-  if (lastName) {
-    return lastName;
-  }
-
   return null;
 };
 
-authentication.getFullName = (fields) => {
-  if (!fields) {
-    return null;
-  }
-
-  const firstName = fields.firstName;
-  const lastName = fields.lastName;
-  const displayName = fields.displayName;
-
-  if (firstName && lastName) {
-    return `${firstName} ${lastName}`;
-  }
-
-  if (displayName) {
-    return displayName;
-  }
-
-  return null;
-};
 
 authentication.getNameInitials = (fields) => {
   if (!fields) {
     return null;
   }
 
-  const firstName = fields.firstName;
-  const lastName = fields.lastName;
   const username = fields.username;
-  const displayName = fields.displayName;
-
-  if (firstName && lastName) {
-    return firstName.charAt(0) + lastName.charAt(0);
-  }
-
-  if (firstName) {
-    return firstName.charAt(0);
-  }
 
   if (username) {
     return username.charAt(0);
-  }
-
-  if (lastName) {
-    return lastName.charAt(0);
-  }
-
-  if (displayName) {
-    return displayName.charAt(0);
   }
 
   return null;
@@ -1002,8 +863,6 @@ authentication.getProfileCompletion = (fields) => {
 
   fields = [
     fields.photoURL,
-    fields.firstName,
-    fields.lastName,
     fields.username,
     fields.email,
     fields.email && fields.emailVerified,

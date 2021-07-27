@@ -67,7 +67,7 @@ function UserCard(props) {
             return {
               score: d.data().score,
               date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-              initials: user.firstName == "" ? "" : `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`.split(" ").map((n) => n[0]).join("").toUpperCase()
+              initials: user.username == "" ? "" : user.username[0]
             }
           })
           setScores(data)
@@ -88,8 +88,8 @@ function UserCard(props) {
   return (
     <Card>
       <CardHeader
-        title={`${user.firstName} ${user.lastname || ''} `}
-        subheader={user.username}
+        title={`@${user.username}`}
+      // subheader={user.username}
       />
       <Tabs
         value={value}

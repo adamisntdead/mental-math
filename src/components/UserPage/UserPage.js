@@ -87,7 +87,7 @@ function UserPage() {
     );
   }
 
-  const hasProfile = user.firstName && user.username;
+  const hasProfile = !!user.username;
 
   if (hasProfile) {
     return (
@@ -102,7 +102,7 @@ function UserPage() {
   return (
     <EmptyState
       title="No profile."
-      description="The user hasn‘t setup their profile. If this is your profile page, make sure to set your first name and username in the settings!"
+      description="The user hasn‘t setup their profile. If this is your profile page, make sure to set your username in the settings!"
     />
   );
 }
