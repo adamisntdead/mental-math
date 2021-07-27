@@ -7,6 +7,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
 import UserAvatar from "../UserAvatar";
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResultsItem({ fullName, score, date, initials, loading }) {
+export default function ResultsItem({ userId, fullName, score, date, initials, loading }) {
     const classes = useStyles();
 
     if (loading) {
@@ -37,8 +39,10 @@ export default function ResultsItem({ fullName, score, date, initials, loading }
                     {initials == '' ? <PersonIcon /> : initials}
                 </Avatar>
             </ListItemAvatar>
+
             {fullName ?
-                (<ListItemText primary={score} secondary={`${fullName} on ${date}`} />) : (<ListItemText primary={score} secondary={date} />)}
+                (<ListItemText primary={score} secondary={<><Link
+                    component={RouterLink} to={`/user/${userId}`}>{`@${fullName}`}</Link> on {`${date}`} </>} />) : (<ListItemText primary={score} secondary={date} />)}
 
         </ListItem>
 

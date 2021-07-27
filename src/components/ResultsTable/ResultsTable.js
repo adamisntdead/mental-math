@@ -39,9 +39,9 @@ export default function FolderList({ scores, loading, name }) {
         console.log("HERERE", scores)
         return (
             <List className={classes.root} dense={true}>
-                {scores.map(({ date, score, initials, fullName }) => {
+                {scores.map(({ date, score, initials, userId, fullName }) => {
                     return (
-                        <ResultsItem fullName={fullName} initials={initials} score={score} date={date} key={date} />
+                        <ResultsItem userId={userId} fullName={fullName} initials={initials} score={score} date={date} key={date} />
                     )
                 })}
             </List>
