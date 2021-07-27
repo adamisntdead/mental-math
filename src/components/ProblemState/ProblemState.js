@@ -17,9 +17,9 @@ function ProblemState(props) {
           <span className="problem">{props.currentProblem[0]}</span>
           &nbsp; = &nbsp;
           <Input
-            type="number"
+            type="text"
             inputProps={{
-              pattern: '\d*'
+              pattern: "[0-9]*"
             }}
             autoFocus={true}
             style={{ fontSize: "36px", fontFamily: "inherit", width: "180px" }}
