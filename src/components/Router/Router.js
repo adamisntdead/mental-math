@@ -44,7 +44,8 @@ class Router extends Component {
           </Route>
 
           <Route path="/user/:userId">
-            {user ? <UserPage /> : <Redirect to="/" />}
+            <UserPage />
+            {/* {user ? <UserPage /> : <Redirect to="/" />} */}
           </Route>
 
           <Route>

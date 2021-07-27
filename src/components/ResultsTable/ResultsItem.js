@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResultsItem({ score, date, initials, loading }) {
+export default function ResultsItem({ fullName, score, date, initials, loading }) {
     const classes = useStyles();
 
     if (loading) {
@@ -37,7 +37,9 @@ export default function ResultsItem({ score, date, initials, loading }) {
                     {initials == '' ? <PersonIcon /> : initials}
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={score} secondary={date} />
+            {fullName ?
+                (<ListItemText primary={score} secondary={`${fullName} on ${date}`} />) : (<ListItemText primary={score} secondary={date} />)}
+
         </ListItem>
 
     );

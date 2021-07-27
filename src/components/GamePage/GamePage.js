@@ -181,11 +181,18 @@ class GamePage extends Component {
   gameOver() {
     // Persist the score
     if (this.props.user) {
-      const userDocumentReference = firestore.collection("users").doc(this.props.user.uid);
-      userDocumentReference.collection('scores').add({
+      const obj = {
         score: this.state.score,
-        date: Date.now()
-      })
+        date: Date.now(),
+        user: this.props.user.uid,
+        firstName: this.props.user.firstName,
+        lastName: this.props.user.lastName,
+        username: this.props.user.username
+      }
+
+      Object.keys(obj).forEach(key => obj[key] === undefined ? delete obj[key] : {});
+
+      firestore.collection('game-scores').add(obj)
     }
 
     this.setState({ gameOver: true });

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Card, CardHeader, Box, Typography, Tabs, Tab } from "@material-ui/core";
 import { useParams, Link } from "react-router-dom";
 import { useTheme } from '@material-ui/core/styles';
@@ -47,7 +46,7 @@ function a11yProps(index) {
 //   { date: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"), score: 1 }
 // ]
 
-function UserCard(props) {
+function LeaderboardCard(props) {
   const { userId, user } = props;
   const [value, setValue] = useState(0);
   const [scores, setScores] = useState([]);
@@ -55,10 +54,9 @@ function UserCard(props) {
   const theme = useTheme();
 
   useEffect(() => {
-    const orderBy = value == 0 ? 'date' : 'score'
+    const orderBy = value == 0 ? 'score' : 'date'
     return firestore
       .collection("game-scores")
-      .where('user', '==', userId)
       .orderBy(orderBy, 'desc')
       .limit(25)
       .onSnapshot(
@@ -67,7 +65,8 @@ function UserCard(props) {
             return {
               score: d.data().score,
               date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-              initials: user.firstName == "" ? "" : `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`.split(" ").map((n) => n[0]).join("").toUpperCase()
+              fullName: d.data().username,
+              initials: d.data().firstName == "" ? "" : `${d.data().firstName}${d.data().lastName ? ' ' + d.data().lastName : ''}`.split(" ").map((n) => n[0]).join("").toUpperCase()
             }
           })
           setScores(data)
@@ -88,8 +87,8 @@ function UserCard(props) {
   return (
     <Card>
       <CardHeader
-        title={`${user.firstName} ${user.lastname || ''} `}
-        subheader={user.username}
+        title="Alphamac Leaderboard"
+      // subheader={user.username}
       />
       <Tabs
         value={value}
@@ -99,9 +98,8 @@ function UserCard(props) {
         variant="fullWidth"
         aria-label="full width tabs example"
       >
-        <Tab label="Recent Scores" {...a11yProps(0)} />
-        <Tab label="High Scores" {...a11yProps(1)} />
-        <Tab label="Progress" {...a11yProps(2)} />
+        <Tab label="High Scores" {...a11yProps(0)} />
+        <Tab label="Recent Scores" {...a11yProps(1)} />
       </Tabs>
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -109,21 +107,15 @@ function UserCard(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable scores={scores} loading={loading} />}
+          {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable name={true} scores={scores} loading={loading} />}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable scores={scores} loading={loading} />}
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Coming Soon
+          {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable name={true} scores={scores} loading={loading} />}
         </TabPanel>
       </SwipeableViews>
     </Card>
   );
 }
 
-UserCard.propTypes = {
-  user: PropTypes.object.isRequired,
-};
 
-export default UserCard;
+export default LeaderboardCard;

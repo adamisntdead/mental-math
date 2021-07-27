@@ -93,7 +93,7 @@ function UserPage() {
     return (
       <Grid className={classes.grid} container justify="center" spacing={5}>
         <Grid item xs={12} md={6} lg={4}>
-          <UserCard user={user} />
+          <UserCard user={user} userId={userId} />
         </Grid>
       </Grid>
     );

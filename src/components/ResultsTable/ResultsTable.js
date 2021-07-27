@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FolderList({ scores, loading }) {
+export default function FolderList({ scores, loading, name }) {
     const classes = useStyles();
 
     if (loading) {
@@ -25,13 +25,27 @@ export default function FolderList({ scores, loading }) {
         )
     }
 
-    return (
-        <List className={classes.root} dense={true}>
-            {scores.map(({ date, score, initials }) => {
-                return (
-                    <ResultsItem initials={initials} score={score} date={date} key={date} />
-                )
-            })}
-        </List>
-    );
+    if (!name) {
+        return (
+            <List className={classes.root} dense={true}>
+                {scores.map(({ date, score, initials }) => {
+                    return (
+                        <ResultsItem initials={initials} score={score} date={date} key={date} />
+                    )
+                })}
+            </List>
+        );
+    } else {
+        console.log("HERERE", scores)
+        return (
+            <List className={classes.root} dense={true}>
+                {scores.map(({ date, score, initials, fullName }) => {
+                    return (
+                        <ResultsItem fullName={fullName} initials={initials} score={score} date={date} key={date} />
+                    )
+                })}
+            </List>
+        );
+    }
+
 }
