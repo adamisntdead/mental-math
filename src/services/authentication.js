@@ -539,18 +539,17 @@ authentication.changeAvatar = (avatar) => {
         avatarReference
           .getDownloadURL()
           .then((value) => {
-            currentUser
-              .updateProfile({
-                photoURL: value,
-              })
-              .then((value) => {
-                analytics.logEvent("change_avatar");
+            // Assign the URL to the user
+            const userDocumentReference = firestore.collection('users').doc(uid)
 
-                resolve(value);
-              })
-              .catch((reason) => {
-                reject(reason);
-              });
+            userDocumentReference.update({
+              profilePhotoURL: value
+            }).then(value => {
+              analytics.logEvent("change_avatar");
+              resolve(value)
+            }).catch(reason => {
+              reject(reason)
+            });
           })
           .catch((reason) => {
             reject(reason);
@@ -580,31 +579,16 @@ authentication.removeAvatar = () => {
       return;
     }
 
-    currentUser
-      .updateProfile({
-        photoURL: null,
-      })
-      .then((value) => {
-        const avatarReference = storage
-          .ref()
-          .child("images")
-          .child("avatars")
-          .child(uid);
+    const userDocumentReference = firestore.collection('users').doc(uid)
 
-        avatarReference
-          .delete()
-          .then((value) => {
-            analytics.logEvent("remove_avatar");
-
-            resolve(value);
-          })
-          .catch((reason) => {
-            reject(reason);
-          });
-      })
-      .catch((reason) => {
-        reject(reason);
-      });
+    userDocumentReference.update({
+      profilePhotoURL: null
+    }).then(value => {
+      analytics.logEvent("remove_avatar");
+      resolve(value)
+    }).catch(reason => {
+      reject(reason)
+    });
   });
 };
 
@@ -850,7 +834,7 @@ authentication.getNameInitials = (fields) => {
   const username = fields.username;
 
   if (username) {
-    return username.charAt(0);
+    return username.charAt(0).toUpperCase();
   }
 
   return null;
@@ -862,11 +846,13 @@ authentication.getProfileCompletion = (fields) => {
   }
 
   fields = [
-    fields.photoURL,
+    fields.profilePhotoURL,
     fields.username,
     fields.email,
     fields.email && fields.emailVerified,
   ];
+
+  console.log(fields)
 
   if (!fields) {
     return null;

@@ -284,6 +284,7 @@ class App extends Component {
             <>
               <Router
                 user={user}
+                userData={userData}
                 roles={roles}
                 bar={
                   <Bar

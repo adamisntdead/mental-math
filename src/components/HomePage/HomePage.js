@@ -16,7 +16,7 @@ import EmptyState from "../EmptyState";
 
 class HomePage extends Component {
   signInWithEmailLink = () => {
-    const { user } = this.props;
+    const { user, userData } = this.props;
 
     if (user) {
       return;
@@ -78,14 +78,16 @@ class HomePage extends Component {
         size="medium"
         button={
           <Fab variant="extended" color="primary" onClick={() => {
-            if (this.props.user && !this.props.user.username) {
-              this.props.openDialog("noUsernameDialog")
-            } else {
-              this.props.history.push('/game')
-            }
+            // console.log(this.props)
+            // if (this.props.user && !this.props.userData.username) {
+            // console.log('User: ', this.props.user)
+            // this.props.openDialog("noUsernameDialog")
+            // } else {
+            // console.log('here', this.props.history)
+            this.props.history.push('/game')
+            // }
           }}
-            // component={Link} 
-            to="/game">
+          >
             <Box clone mr={1}>
               <GameIcon />
             </Box>

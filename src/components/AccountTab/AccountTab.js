@@ -183,17 +183,17 @@ class AccountTab extends Component {
   };
 
   removeAvatar = () => {
-    const { user } = this.props;
+    const { user, userData } = this.props;
 
     const { avatar, avatarUrl } = this.state;
 
-    if (!user.photoURL && !avatar && !avatarUrl) {
+    if (!userData.profilePhotoURL && !avatar && !avatarUrl) {
       return;
     }
 
     if (
-      (!user.photoURL && avatar && avatarUrl) ||
-      (user.photoURL && avatar && avatarUrl)
+      (!userData.profilePhotoURL && avatar && avatarUrl) ||
+      (userData.profilePhotoURL && avatar && avatarUrl)
     ) {
       URL.revokeObjectURL(avatarUrl);
 
@@ -201,7 +201,7 @@ class AccountTab extends Component {
         avatar: null,
         avatarUrl: "",
       });
-    } else if (user.photoURL && !avatar && !avatarUrl) {
+    } else if (userData.profilePhotoURL && !avatar && !avatarUrl) {
       this.setState(
         {
           performingAction: true,
@@ -637,7 +637,7 @@ class AccountTab extends Component {
 
                     {!avatar && !avatarUrl && (
                       <>
-                        {user.photoURL && (
+                        {userData.profilePhotoURL && (
                           <Badge
                             classes={{ badge: classes.badge }}
                             badgeContent={
@@ -673,7 +673,7 @@ class AccountTab extends Component {
                                 <Avatar
                                   className={classes.avatar}
                                   alt="Avatar"
-                                  src={user.photoURL}
+                                  src={userData.profilePhotoURL}
                                 />
                               </Badge>
                             )}
@@ -682,13 +682,13 @@ class AccountTab extends Component {
                               <Avatar
                                 className={classes.avatar}
                                 alt="Avatar"
-                                src={user.photoURL}
+                                src={userData.profilePhotoURL}
                               />
                             )}
                           </Badge>
                         )}
 
-                        {!user.photoURL && (
+                        {!userData.profilePhotoURL && (
                           <>
                             {loadingAvatar && (
                               <Badge
@@ -840,7 +840,7 @@ class AccountTab extends Component {
 
                 {!avatar && !avatarUrl && (
                   <>
-                    {user.photoURL && (
+                    {userData.profilePhotoURL && (
                       <Badge
                         classes={{ badge: classes.badge }}
                         badgeContent={
@@ -867,7 +867,7 @@ class AccountTab extends Component {
                             <Avatar
                               className={classes.avatar}
                               alt="Avatar"
-                              src={user.photoURL}
+                              src={userData.profilePhotoURL}
                             />
                           </Badge>
                         )}
@@ -876,13 +876,13 @@ class AccountTab extends Component {
                           <Avatar
                             className={classes.avatar}
                             alt="Avatar"
-                            src={user.photoURL}
+                            src={userData.profilePhotoURL}
                           />
                         )}
                       </Badge>
                     )}
 
-                    {!user.photoURL && (
+                    {!userData.profilePhotoURL && (
                       <>
                         {loadingAvatar && (
                           <Badge

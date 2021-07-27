@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResultsItem({ userId, fullName, score, date, initials, loading }) {
+export default function ResultsItem({ userId, fullName, score, date, initials, loading, avatar }) {
     const classes = useStyles();
 
     if (loading) {
@@ -35,9 +35,9 @@ export default function ResultsItem({ userId, fullName, score, date, initials, l
     return (
         <ListItem>
             <ListItemAvatar>
-                <Avatar>
+                {avatar || (<Avatar>
                     {initials == '' ? <PersonIcon /> : initials}
-                </Avatar>
+                </Avatar>)}
             </ListItemAvatar>
 
             {fullName ?

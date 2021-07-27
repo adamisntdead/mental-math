@@ -6,6 +6,8 @@ import SwipeableViews from 'react-swipeable-views';
 import moment from 'moment'
 import ResultsTable from '../ResultsTable'
 import { firestore } from "../../firebase";
+import firebase from "firebase/app";
+import UserAvatar from "../UserAvatar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,6 +56,7 @@ function LeaderboardCard(props) {
   const theme = useTheme();
 
   useEffect(() => {
+    setLoading(true)
     const orderBy = value == 0 ? 'score' : 'date'
     return firestore
       .collection("game-scores")
@@ -61,18 +64,28 @@ function LeaderboardCard(props) {
       .limit(25)
       .onSnapshot(
         (snapshot) => {
-          const data = snapshot.docs.map(d => {
-            return {
-              score: d.data().score,
-              date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-              fullName: d.data().username,
-              userId: d.data().user,
-              initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
-            }
+          const userIds = snapshot.docs.map(d => d.data().user).filter((x, i, a) => a.indexOf(x) == i)
+
+          firestore.collection('users').where(firebase.firestore.FieldPath.documentId(), 'in', userIds).onSnapshot((userSnapshot) => {
+            const users = {}
+
+            userSnapshot.docs.forEach(user => {
+              users[user.id] = user.data()
+            })
+
+            const data = snapshot.docs.map(d => {
+              return {
+                score: d.data().score,
+                date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
+                fullName: users[d.data().user] && users[d.data().user].username || 'Loading',
+                userId: d.data().user,
+                avatar: <UserAvatar user={users[d.data().user]} userData={users[d.data().user]} />
+                // initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
+              }
+            })
+            setScores(data)
+            setLoading(false);
           })
-          setScores(data)
-          setLoading(false);
-          // setUser(snapshot.data());
         }
       );
   }, [userId, value]);
@@ -106,6 +119,9 @@ function LeaderboardCard(props) {
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
+        containerStyle={{
+          transition: 'transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s'
+        }}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable name={true} scores={scores} loading={loading} />}

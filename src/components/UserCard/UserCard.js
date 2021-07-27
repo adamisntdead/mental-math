@@ -4,8 +4,10 @@ import { Card, CardHeader, Box, Typography, Tabs, Tab } from "@material-ui/core"
 import { useParams, Link } from "react-router-dom";
 import { useTheme } from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
+import Avatar from '@material-ui/core/Avatar';
 import moment from 'moment'
 import ResultsTable from '../ResultsTable'
+import UserAvatar from '../UserAvatar'
 import { firestore } from "../../firebase";
 
 function TabPanel(props) {
@@ -67,7 +69,8 @@ function UserCard(props) {
             return {
               score: d.data().score,
               date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-              initials: user.username == "" ? "" : user.username[0]
+              initials: user.username == "" ? "" : user.username[0],
+              avatar: (<UserAvatar user={user} userData={user} />)
             }
           })
           setScores(data)
@@ -89,6 +92,12 @@ function UserCard(props) {
     <Card>
       <CardHeader
         title={`@${user.username}`}
+        titleTypographyProps={{
+          variant: "h5"
+        }}
+        avatar={
+          <UserAvatar user={user} userData={user} />
+        }
       // subheader={user.username}
       />
       <Tabs

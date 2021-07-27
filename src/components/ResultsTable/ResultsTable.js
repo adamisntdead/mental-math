@@ -7,7 +7,7 @@ import ResultsItem from './ResultsItem'
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        // maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
     },
 }));
@@ -28,9 +28,9 @@ export default function FolderList({ scores, loading, name }) {
     if (!name) {
         return (
             <List className={classes.root} dense={true}>
-                {scores.map(({ date, score, initials }) => {
+                {scores.map(({ date, score, initials, avatar }) => {
                     return (
-                        <ResultsItem initials={initials} score={score} date={date} key={date} />
+                        <ResultsItem avatar={avatar} initials={initials} score={score} date={date} key={date} />
                     )
                 })}
             </List>
@@ -38,9 +38,9 @@ export default function FolderList({ scores, loading, name }) {
     } else {
         return (
             <List className={classes.root} dense={true}>
-                {scores.map(({ date, score, initials, userId, fullName }) => {
+                {scores.map(({ date, score, initials, userId, fullName, avatar }) => {
                     return (
-                        <ResultsItem userId={userId} fullName={fullName} initials={initials} score={score} date={date} key={date} />
+                        <ResultsItem avatar={avatar} userId={userId} fullName={fullName} initials={initials} score={score} date={date} key={date} />
                     )
                 })}
             </List>

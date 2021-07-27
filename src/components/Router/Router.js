@@ -14,7 +14,7 @@ import LeaderboardPage from "../LeaderboardPage";
 class Router extends Component {
   render() {
     // Properties
-    const { user, roles, bar } = this.props;
+    const { user, userData, roles, bar } = this.props;
 
     // Functions
     const { openSnackbar, openDialog } = this.props;
@@ -25,12 +25,11 @@ class Router extends Component {
 
         <Switch>
           <Route path="/" exact>
-            <HomePage user={user} openSnackbar={openSnackbar} openDialog={openDialog} />
+            <HomePage user={user} userData={userData} openSnackbar={openSnackbar} openDialog={openDialog} />
           </Route>
 
           <Route path="/game">
-            {user && user.username || !user ? (<GamePage user={user} />) : (<Redirect to="/" />)}
-
+            {user && userData.username || !user ? (<GamePage user={user} />) : (<Redirect to="/" />)}
           </Route>
 
           <Route path="/leaderboard">

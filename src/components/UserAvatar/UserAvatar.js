@@ -25,17 +25,17 @@ class UserAvatar extends Component {
     const { classes } = this.props;
 
     // Properties
-    const { context, user, defaultCursor } = this.props;
+    const { context, user, userData, defaultCursor } = this.props;
 
     if (context === "standalone") {
       if (!user) {
         return <AccountCircleIcon />;
       }
 
-      const photoUrl = user.photoURL;
+      const profilePhotoURL = userData.profilePhotoURL;
 
-      if (photoUrl) {
-        return <Avatar alt="Avatar" src={photoUrl} />;
+      if (profilePhotoURL) {
+        return <Avatar alt="Avatar" src={profilePhotoURL} />;
       }
 
       const nameInitials = authentication.getNameInitials({
@@ -66,12 +66,12 @@ class UserAvatar extends Component {
         );
       }
 
-      const photoUrl = user.photoURL;
+      const profilePhotoURL = userData.profilePhotoURL;
 
-      if (photoUrl) {
+      if (profilePhotoURL) {
         return (
           <ListItemAvatar>
-            <Avatar alt="Avatar" src={photoUrl} />
+            <Avatar alt="Avatar" src={profilePhotoURL} />
           </ListItemAvatar>
         );
       }

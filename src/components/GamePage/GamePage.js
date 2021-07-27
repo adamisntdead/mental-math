@@ -180,7 +180,7 @@ class GamePage extends Component {
 
   gameOver() {
     // Persist the score
-    if (this.props.user) {
+    if (this.props.user && this.state.score > 0) {
       const obj = {
         score: this.state.score,
         date: Date.now(),
