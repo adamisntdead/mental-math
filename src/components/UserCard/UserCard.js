@@ -7,6 +7,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Avatar from '@material-ui/core/Avatar';
 import moment from 'moment'
 import ResultsTable from '../ResultsTable'
+import ResultsChart from '../ResultsChart'
 import UserAvatar from '../UserAvatar'
 import { firestore } from "../../firebase";
 
@@ -57,27 +58,42 @@ function UserCard(props) {
   const theme = useTheme();
 
   useEffect(() => {
-    const orderBy = value == 0 ? 'date' : 'score'
-    return firestore
-      .collection("game-scores")
-      .where('user', '==', userId)
-      .orderBy(orderBy, 'desc')
-      .limit(25)
-      .onSnapshot(
-        (snapshot) => {
-          const data = snapshot.docs.map(d => {
-            return {
-              score: d.data().score,
-              date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-              initials: user.username == "" ? "" : user.username[0],
-              avatar: (<UserAvatar user={user} userData={user} />)
-            }
-          })
-          setScores(data)
-          setLoading(false);
-          // setUser(snapshot.data());
-        }
-      );
+    if (value != 2) {
+      const orderBy = value == 0 ? 'date' : 'score'
+      return firestore
+        .collection("game-scores")
+        .where('user', '==', userId)
+        .orderBy(orderBy, 'desc')
+        .limit(25)
+        .onSnapshot(
+          (snapshot) => {
+            const data = snapshot.docs.map(d => {
+              return {
+                score: d.data().score,
+                date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
+                initials: user.username == "" ? "" : user.username[0],
+                avatar: (<UserAvatar user={user} userData={user} />)
+              }
+            })
+            setScores(data)
+            setLoading(false);
+            // setUser(snapshot.data());
+          }
+        );
+    } else {
+      return firestore.collection('game-scores').where('user', '==', userId).onSnapshot((snapshot) => {
+        const data = snapshot.docs.map(d => {
+          return {
+            score: d.data().score,
+            date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
+            initials: user.username == "" ? "" : user.username[0],
+            avatar: (<UserAvatar user={user} userData={user} />)
+          }
+        })
+        setScores(data)
+        setLoading(false);
+      })
+    }
   }, [userId, value]);
 
   const handleChange = (event, newValue) => {
@@ -124,7 +140,7 @@ function UserCard(props) {
           {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsTable scores={scores} loading={loading} />}
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Coming Soon
+          {scores.length == 0 && !loading ? 'This user has not completed any games.' : <ResultsChart theme={theme} username={user.username} scores={scores} loading={loading} />}
         </TabPanel>
       </SwipeableViews>
     </Card>
