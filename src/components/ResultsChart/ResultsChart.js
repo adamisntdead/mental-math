@@ -26,7 +26,7 @@ export default class ResultsChart extends React.Component {
                     zoom: {
                         type: 'x',
                         enabled: true,
-                        autoScaleYaxis: true
+                        autoScaleYaxis: false
                     },
                     toolbar: {
                         autoSelected: 'zoom'

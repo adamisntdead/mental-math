@@ -78,14 +78,11 @@ class HomePage extends Component {
         size="medium"
         button={
           <Fab variant="extended" color="primary" onClick={() => {
-            // console.log(this.props)
-            // if (this.props.user && !this.props.userData.username) {
-            // console.log('User: ', this.props.user)
-            // this.props.openDialog("noUsernameDialog")
-            // } else {
-            // console.log('here', this.props.history)
-            this.props.history.push('/game')
-            // }
+            if (this.props.user && !this.props.userData.username) {
+              this.props.openDialog("noUsernameDialog")
+            } else {
+              this.props.history.push('/game')
+            }
           }}
           >
             <Box clone mr={1}>
