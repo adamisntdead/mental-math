@@ -249,7 +249,8 @@ class GamePage extends Component {
         >
           <Badge max={999} badgeContent={this.state.score} color="primary">
             <Paper elevation={1}>
-              <GameTimer value={this.state.timeLeft} />
+              {this.props.timer ? <GameTimer value={this.state.timeLeft} /> : ''}
+
               <Box style={{ padding: "30px" }}>
                 <ProblemState
                   currentProblem={this.state.currentProblem}

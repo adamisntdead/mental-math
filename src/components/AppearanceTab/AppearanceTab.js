@@ -25,6 +25,7 @@ import {
   FiberManualRecord as FiberManualRecordIcon,
   Brightness4 as Brightness4Icon,
   FormatColorReset as FormatColorResetIcon,
+  Timer as TimerIcon
 } from "@material-ui/icons";
 
 import appearance from "../../services/appearance";
@@ -125,6 +126,54 @@ class AppearanceTab extends Component {
             primaryColor: theme.primaryColor.id,
             secondaryColor: secondaryColor,
             dark: theme.dark,
+          })
+          .catch((reason) => {
+            const code = reason.code;
+            const message = reason.message;
+
+            switch (code) {
+              default:
+                this.props.openSnackbar(message);
+                return;
+            }
+          })
+          .finally(() => {
+            this.setState({
+              performingAction: false,
+            });
+          });
+      }
+    );
+  };
+
+  handleTimerChange = (event) => {
+    if (!event) {
+      return;
+    }
+
+    const timer = event.target.checked;
+
+    const { theme } = this.props;
+
+    if (!theme) {
+      return;
+    }
+
+    if (theme.timer === timer) {
+      return;
+    }
+
+    this.setState(
+      {
+        performingAction: true,
+      },
+      () => {
+        appearance
+          .changeTheme({
+            primaryColor: theme.primaryColor.id,
+            secondaryColor: theme.secondaryColor.id,
+            dark: theme.dark,
+            timer: timer
           })
           .catch((reason) => {
             const code = reason.code;
@@ -378,6 +427,37 @@ class AppearanceTab extends Component {
                   color="primary"
                   checked={theme.dark}
                   onChange={this.handleDarkModeChange}
+                />
+              </Hidden>
+
+              <Hidden smUp>
+                <Switch
+                  color="primary"
+                  checked={theme.dark}
+                  onChange={this.handleDarkModeChange}
+                />
+              </Hidden>
+            </ListItemSecondaryAction>
+          </ListItem>
+
+          <ListItem>
+            <Hidden xsDown>
+              <ListItemIcon>
+                <TimerIcon />
+              </ListItemIcon>
+            </Hidden>
+
+            <ListItemText
+              primary="Game timer"
+              secondary="A timer showing how long is left in a trial"
+            />
+
+            <ListItemSecondaryAction>
+              <Hidden xsDown>
+                <Checkbox
+                  color="primary"
+                  checked={theme.timer}
+                  onChange={this.handleTimerChange}
                 />
               </Hidden>
 

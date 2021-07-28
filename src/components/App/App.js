@@ -286,6 +286,7 @@ class App extends Component {
                 user={user}
                 userData={userData}
                 roles={roles}
+                theme={theme}
                 bar={
                   <Bar
                     performingAction={performingAction}

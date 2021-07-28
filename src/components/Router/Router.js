@@ -14,7 +14,7 @@ import LeaderboardPage from "../LeaderboardPage";
 class Router extends Component {
   render() {
     // Properties
-    const { user, userData, roles, bar } = this.props;
+    const { user, userData, roles, bar, theme } = this.props;
 
     // Functions
     const { openSnackbar, openDialog } = this.props;
@@ -29,7 +29,7 @@ class Router extends Component {
           </Route>
 
           <Route path="/game">
-            {user && userData.username || !user ? (<GamePage user={user} />) : (<Redirect to="/" />)}
+            {user && userData.username || !user ? (<GamePage timer={theme.timer} user={user} />) : (<Redirect to="/" />)}
           </Route>
 
           <Route path="/leaderboard">

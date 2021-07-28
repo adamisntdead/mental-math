@@ -168,6 +168,7 @@ const defaultTheme = createTheme({
   primaryColor: defaultPrimaryColor,
   secondaryColor: defaultSecondaryColor,
   dark: defaultDark,
+  timer: true
 });
 
 const appearance = {};
@@ -188,7 +189,8 @@ appearance.isDefaultTheme = (theme) => {
   if (
     theme.primaryColor.id === defaultPrimaryColor.id &&
     theme.secondaryColor.id === defaultSecondaryColor.id &&
-    theme.dark === defaultDark
+    theme.dark === defaultDark &&
+    theme.timer === true
   ) {
     return true;
   }
@@ -204,6 +206,7 @@ appearance.createTheme = (theme) => {
   let primaryColor = theme.primaryColor;
   let secondaryColor = theme.secondaryColor;
   let dark = theme.dark;
+  let timer = theme.timer
 
   if (!primaryColor || !secondaryColor) {
     return null;
@@ -226,6 +229,7 @@ appearance.createTheme = (theme) => {
     primaryColor: primaryColor,
     secondaryColor: secondaryColor,
     dark: dark,
+    timer: timer
   });
 
   return theme;
@@ -242,6 +246,7 @@ appearance.changeTheme = (theme) => {
     let primaryColor = theme.primaryColor;
     let secondaryColor = theme.secondaryColor;
     let dark = theme.dark;
+    let timer = theme.timer
 
     if (!primaryColor || !secondaryColor) {
       reject(new Error("No primary color or secondary color"));
@@ -282,6 +287,7 @@ appearance.changeTheme = (theme) => {
           primaryColor: primaryColor.id,
           secondaryColor: secondaryColor.id,
           dark: dark,
+          timer: timer
         },
       })
       .then((value) => {
