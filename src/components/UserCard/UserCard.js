@@ -64,7 +64,6 @@ function UserCard(props) {
         .collection("game-scores")
         .where('user', '==', userId)
         .orderBy(orderBy, 'desc')
-        .limit(25)
         .onSnapshot(
           (snapshot) => {
             const data = snapshot.docs.map(d => {

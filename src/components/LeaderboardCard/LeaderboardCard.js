@@ -63,7 +63,7 @@ function LeaderboardCard(props) {
       return firestore
         .collection("game-scores")
         .orderBy(orderBy, 'desc')
-        .limit(25)
+        .limit(10)
         .onSnapshot(
           (snapshot) => {
             const userIds = snapshot.docs.map(d => d.data().user).filter((x, i, a) => a.indexOf(x) == i)
