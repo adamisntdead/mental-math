@@ -43,7 +43,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const styles = (theme) => ({
     dialogContent: {
         paddingTop: theme.spacing(2),
-        minWidth: '450px'
+        // minWidth: '450px'
     },
 
     badge: {
