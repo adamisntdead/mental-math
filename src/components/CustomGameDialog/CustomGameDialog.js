@@ -78,6 +78,7 @@ class CustomGameDialog extends Component {
       <Dialog {...dialogProps} onExited={this.handleExited}>
         <DialogTitle disableTypography>
           <Typography variant="h6">Custom Game</Typography>
+          <Typography variant="subtitle2">Remember, scores aren't recorded for custom games!</Typography>
 
           <Tooltip title="Close">
             <IconButton
