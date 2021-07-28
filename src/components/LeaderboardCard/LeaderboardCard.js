@@ -58,36 +58,92 @@ function LeaderboardCard(props) {
   useEffect(() => {
     setLoading(true)
     const orderBy = value == 0 ? 'score' : 'date'
-    return firestore
-      .collection("game-scores")
-      .orderBy(orderBy, 'desc')
-      .limit(25)
-      .onSnapshot(
-        (snapshot) => {
-          const userIds = snapshot.docs.map(d => d.data().user).filter((x, i, a) => a.indexOf(x) == i)
 
-          firestore.collection('users').where(firebase.firestore.FieldPath.documentId(), 'in', userIds).onSnapshot((userSnapshot) => {
-            const users = {}
+    if (orderBy == 'date') {
+      return firestore
+        .collection("game-scores")
+        .orderBy(orderBy, 'desc')
+        .limit(25)
+        .onSnapshot(
+          (snapshot) => {
+            const userIds = snapshot.docs.map(d => d.data().user).filter((x, i, a) => a.indexOf(x) == i)
 
-            userSnapshot.docs.forEach(user => {
-              users[user.id] = user.data()
+            firestore.collection('users').where(firebase.firestore.FieldPath.documentId(), 'in', userIds).onSnapshot((userSnapshot) => {
+              const users = {}
+
+              userSnapshot.docs.forEach(user => {
+                users[user.id] = user.data()
+              })
+
+              const data = snapshot.docs.map(d => {
+                return {
+                  score: d.data().score,
+                  date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
+                  fullName: users[d.data().user] && users[d.data().user].username || 'Loading',
+                  userId: d.data().user,
+                  avatar: <UserAvatar user={users[d.data().user]} userData={users[d.data().user]} />
+                  // initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
+                }
+              })
+              setScores(data)
+              setLoading(false);
             })
-
-            const data = snapshot.docs.map(d => {
-              return {
-                score: d.data().score,
-                date: moment(d.data().date).format("MMMM Do YYYY, h:mm:ss a"),
-                fullName: users[d.data().user] && users[d.data().user].username || 'Loading',
-                userId: d.data().user,
-                avatar: <UserAvatar user={users[d.data().user]} userData={users[d.data().user]} />
-                // initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
+          }
+        );
+    } else {
+      return firestore
+        .collection("game-scores")
+        .orderBy('user', 'desc')
+        .onSnapshot(
+          (snapshot) => {
+            const userData = {}
+            snapshot.docs.forEach(d => {
+              // if (!d.data().user in userData || userData[d.data().user] && d.data().score > userData[d.data().user].score) {
+              if (!userData.hasOwnProperty(d.data().user)) {
+                userData[d.data().user] = d.data()
+              } else if (userData[d.data().user].score < d.data().score) {
+                userData[d.data().user] = d.data()
               }
             })
-            setScores(data)
-            setLoading(false);
+
+            // Smallest 10
+            const scores = Object.keys(userData).map(id => userData[id].score)
+            scores.sort((a, b) => b - a)
+
+            if (scores.length > 10) {
+              Object.keys(userData).forEach(uid => {
+                if (userData[uid].score <= scores[10]) {
+                  delete userData[uid]
+                }
+              })
+            }
+
+            const userIds = Object.keys(userData)
+            firestore.collection('users').where(firebase.firestore.FieldPath.documentId(), 'in', userIds).onSnapshot((userSnapshot) => {
+              const users = {}
+
+              userSnapshot.docs.forEach(user => {
+                users[user.id] = user.data()
+              })
+
+              const data = Object.values(userData).map(d => {
+                return {
+                  score: d.score,
+                  date: moment(d.date).format("MMMM Do YYYY, h:mm:ss a"),
+                  fullName: users[d.user] && users[d.user].username || 'Loading',
+                  userId: d.user,
+                  avatar: <UserAvatar user={users[d.user]} userData={users[d.user]} />
+                  // initials: d.data().username == "" ? "" : d.data().username.charAt(0).toUpperCase()
+                }
+              })
+              data.sort((a, b) => b.score - a.score)
+
+
+              setScores(data)
+              setLoading(false);
+            })
           })
-        }
-      );
+    }
   }, [userId, value]);
 
   const handleChange = (event, newValue) => {
