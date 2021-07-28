@@ -10,6 +10,7 @@ import UserPage from "../UserPage";
 import NotFoundPage from "../NotFoundPage";
 import GamePage from "../GamePage";
 import LeaderboardPage from "../LeaderboardPage";
+import CustomGamePage from "../CustomGamePage";
 
 class Router extends Component {
   render() {
@@ -19,40 +20,43 @@ class Router extends Component {
     // Functions
     const { openSnackbar, openDialog } = this.props;
 
-    return (
-      <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
-        {bar}
+    return (<>
+      {bar}
 
-        <Switch>
-          <Route path="/" exact>
-            <HomePage user={user} userData={userData} openSnackbar={openSnackbar} openDialog={openDialog} />
-          </Route>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage user={user} userData={userData} openSnackbar={openSnackbar} openDialog={openDialog} />
+        </Route>
 
-          <Route path="/game">
-            {user && userData.username || !user ? (<GamePage timer={theme.timer} user={user} />) : (<Redirect to="/" />)}
-          </Route>
+        <Route path="/game">
+          {user && userData.username || !user ? (<GamePage timer={theme.timer} user={user} />) : (<Redirect to="/" />)}
+        </Route>
 
-          <Route path="/leaderboard">
-            <LeaderboardPage />
-          </Route>
-          <Route path="/admin">
-            {user && roles.includes("admin") ? (
-              <AdminPage />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
+        <Route path="/custom/:config">
+          <CustomGamePage timer={theme.timer} user={user} />
+        </Route>
 
-          <Route path="/user/:userId">
-            <UserPage />
-            {/* {user ? <UserPage /> : <Redirect to="/" />} */}
-          </Route>
+        <Route path="/leaderboard">
+          <LeaderboardPage />
+        </Route>
+        <Route path="/admin">
+          {user && roles.includes("admin") ? (
+            <AdminPage />
+          ) : (
+            <Redirect to="/" />
+          )}
+        </Route>
 
-          <Route>
-            <NotFoundPage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+        <Route path="/user/:userId">
+          <UserPage />
+          {/* {user ? <UserPage /> : <Redirect to="/" />} */}
+        </Route>
+
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
+    </>
     );
   }
 }

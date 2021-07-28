@@ -19,21 +19,25 @@ function randGen(min, max) {
   return () => min + randInt(max - min + 1);
 }
 
-function generate() {
-  const options = {
-    add: true,
-    sub: true,
-    mul: true,
-    div: true,
-    add_left_min: 2,
-    add_left_max: 100,
-    add_right_min: 2,
-    add_right_max: 100,
-    mul_left_min: 2,
-    mul_left_max: 12,
-    mul_right_min: 2,
-    mul_right_max: 100,
-  };
+const defaultOptions = {
+  add: true,
+  sub: true,
+  mul: true,
+  div: true,
+  add_left_min: 2,
+  add_left_max: 100,
+  add_right_min: 2,
+  add_right_max: 100,
+  mul_left_min: 2,
+  mul_left_max: 12,
+  mul_right_min: 2,
+  mul_right_max: 100,
+};
+
+function generate(options) {
+  if (!options) options = defaultOptions
+
+  console.log(options)
 
   const genTypes = ["add_left", "add_right", "mul_left", "mul_right"];
   const randGens = {};
@@ -95,7 +99,7 @@ function GameTimer(props) {
   return (
     // <Box display="flex" alignItems="center">
     <Box width="100%" mr={1}>
-      <LinearProgress variant="determinate" value={props.value / (GAME_LENGTH / 100)} />
+      <LinearProgress variant="determinate" value={props.value / (props.gameLength / 100)} />
     </Box>
   );
 }
@@ -132,8 +136,8 @@ class GamePage extends Component {
     this.state = {
       loading: true,
       gameOver: false,
-      currentProblem: generate(),
-      timeLeft: GAME_LENGTH,
+      currentProblem: generate(this.props.config),
+      timeLeft: (this.props.config && this.props.config.gameLength) || GAME_LENGTH,
       score: 0,
       currentAnswer: "",
     };
@@ -144,7 +148,7 @@ class GamePage extends Component {
 
   correctAnswer() {
     // Generate a new problem
-    const newProblem = generate();
+    const newProblem = generate(this.props.config);
 
     this.setState({
       currentAnswer: "",
@@ -169,8 +173,8 @@ class GamePage extends Component {
     this.setState({
       loading: true,
       gameOver: false,
-      currentProblem: generate(),
-      timeLeft: GAME_LENGTH,
+      currentProblem: generate(this.props.config),
+      timeLeft: this.props.config.gameLength || GAME_LENGTH,
       score: 0,
       currentAnswer: "",
     });
@@ -180,7 +184,7 @@ class GamePage extends Component {
 
   gameOver() {
     // Persist the score
-    if (this.props.user && this.state.score > 0) {
+    if (!this.props.custom && this.props.user && this.state.score > 0) {
       const obj = {
         score: this.state.score,
         date: Date.now(),
@@ -249,7 +253,7 @@ class GamePage extends Component {
         >
           <Badge max={999} badgeContent={this.state.score} color="primary">
             <Paper elevation={1}>
-              {this.props.timer ? <GameTimer value={this.state.timeLeft} /> : ''}
+              {this.props.timer ? <GameTimer gameLength={(this.props.config && this.props.config.gameLength) || GAME_LENGTH} value={this.state.timeLeft} /> : ''}
 
               <Box style={{ padding: "30px" }}>
                 <ProblemState

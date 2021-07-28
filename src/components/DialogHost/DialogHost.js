@@ -9,6 +9,7 @@ import SignInDialog from "../SignInDialog";
 import SettingsDialog from "../SettingsDialog";
 import DeleteAccountDialog from "../DeleteAccountDialog";
 import AlertDialog from "../AlertDialog";
+import CustomGameDialog from "../CustomGameDialog";
 
 class DialogHost extends Component {
   render() {
@@ -24,6 +25,7 @@ class DialogHost extends Component {
     const deleteAccountDialog = dialogs.deleteAccountDialog;
     const signOutDialog = dialogs.signOutDialog;
     const noUsernameDialog = dialogs.noUsernameDialog;
+    const customGameDialog = dialogs.customGameDialog;
 
     return (
       <>
@@ -92,6 +94,16 @@ class DialogHost extends Component {
         </Hidden>
 
         <Hidden smDown>
+          <CustomGameDialog
+            dialogProps={customGameDialog.dialogProps}
+            performingAction={performingAction}
+            theme={theme}
+            user={user}
+            userData={userData}
+            openSnackbar={openSnackbar}
+            {...customGameDialog.props}
+          />
+
           {user && (
             <>
               <SettingsDialog
@@ -160,6 +172,16 @@ class DialogHost extends Component {
         </Hidden>
 
         <Hidden mdUp>
+          <CustomGameDialog
+            dialogProps={{ fullScreen: true, ...customGameDialog.dialogProps }}
+            performingAction={performingAction}
+            theme={theme}
+            user={user}
+            userData={userData}
+            openSnackbar={openSnackbar}
+            {...customGameDialog.props}
+          />
+
           {user && (
             <>
               <SettingsDialog

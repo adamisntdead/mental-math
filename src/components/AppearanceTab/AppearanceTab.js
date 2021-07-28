@@ -464,8 +464,8 @@ class AppearanceTab extends Component {
               <Hidden smUp>
                 <Switch
                   color="primary"
-                  checked={theme.dark}
-                  onChange={this.handleDarkModeChange}
+                  checked={theme.timer}
+                  onChange={this.handleTimerChange}
                 />
               </Hidden>
             </ListItemSecondaryAction>

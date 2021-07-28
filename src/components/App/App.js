@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import readingTime from "reading-time";
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter } from "react-router-dom";
 
 import { CssBaseline, Button, Snackbar } from "@material-ui/core";
 
@@ -45,6 +46,10 @@ const initialState = {
   },
 
   noUsernameDialog: {
+    open: false
+  },
+
+  customGameDialog: {
     open: false
   },
 
@@ -144,6 +149,10 @@ class App extends Component {
 
         noUsernameDialog: {
           open: false
+        },
+
+        customGameDialog: {
+          open: false
         }
       },
       callback
@@ -192,6 +201,9 @@ class App extends Component {
         },
         noUsernameDialog: {
           open: false
+        },
+        customGameDialog: {
+          open: false,
         },
         performingAction: false
       })
@@ -269,6 +281,7 @@ class App extends Component {
       deleteAccountDialog,
       signOutDialog,
       noUsernameDialog,
+      customGameDialog
     } = this.state;
 
     const { snackbar } = this.state;
@@ -282,147 +295,176 @@ class App extends Component {
 
           {ready && (
             <>
-              <Router
-                user={user}
-                userData={userData}
-                roles={roles}
-                theme={theme}
-                bar={
-                  <Bar
-                    performingAction={performingAction}
-                    theme={theme}
-                    user={user}
-                    userData={userData}
-                    roles={roles}
-                    onSignUpClick={() => this.openDialog("signUpDialog")}
-                    onSignInClick={() => this.openDialog("signInDialog")}
-                    onSettingsClick={() => this.openDialog("settingsDialog")}
-                    onSignOutClick={() => this.openDialog("signOutDialog")}
-                  />
-                }
-                openSnackbar={this.openSnackbar}
-                openDialog={this.openDialog}
-              />
-
-              <DialogHost
-                performingAction={performingAction}
-                theme={theme}
-                user={user}
-                userData={userData}
-                openSnackbar={this.openSnackbar}
-                dialogs={{
-                  signUpDialog: {
-                    dialogProps: {
-                      open: signUpDialog.open,
-
-                      onClose: (callback) => {
-                        this.closeDialog("signUpDialog");
-
-                        if (callback && typeof callback === "function") {
-                          callback();
-                        }
-                      },
-                    },
-                  },
-
-                  signInDialog: {
-                    dialogProps: {
-                      open: signInDialog.open,
-
-                      onClose: (callback) => {
-                        this.closeDialog("signInDialog");
-
-                        if (callback && typeof callback === "function") {
-                          callback();
-                        }
-                      },
-                    },
-                  },
-
-                  settingsDialog: {
-                    dialogProps: {
-                      open: settingsDialog.open,
-
-                      onClose: () => this.closeDialog("settingsDialog"),
-                    },
-
-                    props: {
-                      onDeleteAccountClick: () =>
-                        this.openDialog("deleteAccountDialog"),
-                    },
-                  },
-
-                  deleteAccountDialog: {
-                    dialogProps: {
-                      open: deleteAccountDialog.open,
-
-                      onClose: () => this.closeDialog("deleteAccountDialog"),
-                    },
-
-                    props: {
-                      deleteAccount: this.deleteAccount,
-                    },
-                  },
-
-                  signOutDialog: {
-                    dialogProps: {
-                      open: signOutDialog.open,
-
-                      onClose: () => this.closeDialog("signOutDialog"),
-                    },
-
-                    props: {
-                      title: "Sign out?",
-                      contentText:
-                        "While signed out you will not be able to track your scores over time.",
-                      dismissiveAction: (
-                        <Button
-                          color="primary"
-                          onClick={() => this.closeDialog("signOutDialog")}
-                        >
-                          Cancel
-                        </Button>
-                      ),
-                      confirmingAction: (
-                        <Button
-                          color="primary"
-                          disabled={performingAction}
-                          variant="contained"
-                          onClick={this.signOut}
-                        >
-                          Sign Out
-                        </Button>
-                      ),
-                    },
-                  },
-
-                  noUsernameDialog: {
-                    dialogProps: {
-                      open: noUsernameDialog.open,
-
-                      onClose: () => this.closeDialog('noUsernameDialog'),
-                    },
-
-                    props: {
-                      title: "Missing username!",
-                      contentText: "You haven't set your username yet! This means you won't be able to play the game or track your scores.",
-                      confirmingAction: (
-                        <Button color="primary"
-                          disabled={performingAction}
-                          variant="contained"
-                          onClick={this.openSettings}>Open Settings</Button>
-                      )
-                    }
+              <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
+                <Router
+                  user={user}
+                  userData={userData}
+                  roles={roles}
+                  theme={theme}
+                  bar={
+                    <Bar
+                      performingAction={performingAction}
+                      theme={theme}
+                      user={user}
+                      userData={userData}
+                      roles={roles}
+                      onSignUpClick={() => this.openDialog("signUpDialog")}
+                      onSignInClick={() => this.openDialog("signInDialog")}
+                      onSettingsClick={() => this.openDialog("settingsDialog")}
+                      onSignOutClick={() => this.openDialog("signOutDialog")}
+                    />
                   }
-                }}
-              />
+                  openSnackbar={this.openSnackbar}
+                  openDialog={this.openDialog}
+                />
 
-              <Snackbar
-                autoHideDuration={snackbar.autoHideDuration}
-                message={snackbar.message}
-                open={snackbar.open}
-                onClose={this.closeSnackbar}
-              />
+                <DialogHost
+                  performingAction={performingAction}
+                  theme={theme}
+                  user={user}
+                  userData={userData}
+                  openSnackbar={this.openSnackbar}
+                  dialogs={{
+                    signUpDialog: {
+                      dialogProps: {
+                        open: signUpDialog.open,
+
+                        onClose: (callback) => {
+                          this.closeDialog("signUpDialog");
+
+                          if (callback && typeof callback === "function") {
+                            callback();
+                          }
+                        },
+                      },
+                    },
+
+                    signInDialog: {
+                      dialogProps: {
+                        open: signInDialog.open,
+
+                        onClose: (callback) => {
+                          this.closeDialog("signInDialog");
+
+                          if (callback && typeof callback === "function") {
+                            callback();
+                          }
+                        },
+                      },
+                    },
+
+                    settingsDialog: {
+                      dialogProps: {
+                        open: settingsDialog.open,
+
+                        onClose: () => this.closeDialog("settingsDialog"),
+                      },
+
+                      props: {
+                        onDeleteAccountClick: () =>
+                          this.openDialog("deleteAccountDialog"),
+                      },
+                    },
+
+                    deleteAccountDialog: {
+                      dialogProps: {
+                        open: deleteAccountDialog.open,
+
+                        onClose: () => this.closeDialog("deleteAccountDialog"),
+                      },
+
+                      props: {
+                        deleteAccount: this.deleteAccount,
+                      },
+                    },
+
+                    signOutDialog: {
+                      dialogProps: {
+                        open: signOutDialog.open,
+
+                        onClose: () => this.closeDialog("signOutDialog"),
+                      },
+
+                      props: {
+                        title: "Sign out?",
+                        contentText:
+                          "While signed out you will not be able to track your scores over time.",
+                        dismissiveAction: (
+                          <Button
+                            color="primary"
+                            onClick={() => this.closeDialog("signOutDialog")}
+                          >
+                            Cancel
+                          </Button>
+                        ),
+                        confirmingAction: (
+                          <Button
+                            color="primary"
+                            disabled={performingAction}
+                            variant="contained"
+                            onClick={this.signOut}
+                          >
+                            Sign Out
+                          </Button>
+                        ),
+                      },
+                    },
+
+                    noUsernameDialog: {
+                      dialogProps: {
+                        open: noUsernameDialog.open,
+
+                        onClose: () => this.closeDialog('noUsernameDialog'),
+                      },
+
+                      props: {
+                        title: "Missing username!",
+                        contentText: "You haven't set your username yet! This means you won't be able to play the game or track your scores.",
+                        confirmingAction: (
+                          <Button color="primary"
+                            disabled={performingAction}
+                            variant="contained"
+                            onClick={this.openSettings}>Open Settings</Button>
+                        )
+                      }
+                    },
+
+                    customGameDialog: {
+                      dialogProps: {
+                        open: customGameDialog.open,
+                        onClose: () => this.closeDialog('customGameDialog'),
+                      },
+
+
+                      props: {
+                        title: 'Custom Game!',
+                        contentText: 'Begin a custom game',
+                        dismissiveAction: (
+                          <Button
+                            color="primary"
+                            onClick={() => this.closeDialog("customGameDialog")}
+                          >
+                            Cancel
+                          </Button>
+                        ),
+                        confirmingAction: (
+                          <Button color="primary"
+                            disabled={performingAction}
+                            variant="contained"
+                            onClick={this.openSettings}>Begin Game</Button>
+                        )
+                      }
+                    }
+                  }}
+                />
+
+                <Snackbar
+                  autoHideDuration={snackbar.autoHideDuration}
+                  message={snackbar.message}
+                  open={snackbar.open}
+                  onClose={this.closeSnackbar}
+                />
+              </BrowserRouter>
             </>
           )}
         </ErrorBoundary>
