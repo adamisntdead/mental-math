@@ -174,7 +174,7 @@ class GamePage extends Component {
       loading: true,
       gameOver: false,
       currentProblem: generate(this.props.config),
-      timeLeft: this.props.config.gameLength || GAME_LENGTH,
+      timeLeft: (this.props.config && this.props.config.gameLength) || GAME_LENGTH,
       score: 0,
       currentAnswer: "",
     });
